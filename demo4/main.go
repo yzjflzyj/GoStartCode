@@ -20,6 +20,21 @@ func main() {
 	fmt.Println(cl())
 	fmt.Println(cl())
 	fmt.Println(cl())
+
+	//调用方法
+	age := Age(25)
+	age.String()
+
+	//指针类型接受者
+	age.Modify()
+	age.String()
+
+	//方法表达式调用
+	//方法赋值给变量，方法表达式
+	sm := Age.String
+	//通过变量，要传一个接收者进行调用也就是age
+	sm(age)
+
 }
 
 //函数声明
@@ -61,4 +76,16 @@ func colsure() func() int {
 		i++
 		return i
 	}
+}
+
+type Age uint
+
+//方法声明,方法 String() 就是类型 Age 的方法,类型 Age 是方法 String() 的接收者。
+func (age Age) String() {
+	fmt.Println("the age is", age)
+}
+
+// Modify 指针类型接受者
+func (age *Age) Modify() {
+	*age = Age(30)
 }
