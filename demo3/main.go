@@ -68,6 +68,8 @@ func main() {
 	if ok {
 		fmt.Println(age)
 	}
+	// 删除
+	delete(nameAgeMap, "飞雪无情")
 
 	//遍历
 	for k, v := range nameAgeMap {
