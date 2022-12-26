@@ -78,7 +78,7 @@ func colsure() func() int {
 	}
 }
 
-type Age uint
+type Age uint //表示定义一个新类型 Age，该类型等价于 uint
 
 //方法声明,方法 String() 就是类型 Age 的方法,类型 Age 是方法 String() 的接收者。
 func (age Age) String() {

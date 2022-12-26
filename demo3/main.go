@@ -88,4 +88,18 @@ func main() {
 		fmt.Println(i, r)
 		fmt.Printf("Unicode: %c  %d\n", r, r)
 	}
+
+	//二维数组
+	aa := [3][3]int{}
+	aa[0][0] = 1
+	aa[0][1] = 2
+	aa[0][2] = 3
+	aa[1][0] = 4
+	aa[1][1] = 5
+	aa[1][2] = 6
+	aa[2][0] = 7
+	aa[2][1] = 8
+	aa[2][2] = 9
+	fmt.Println(aa)
+
 }
