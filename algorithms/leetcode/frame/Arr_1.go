@@ -1,23 +1,20 @@
 package main
 
-// 303. 区域和检索 - 数组不可变
+// NumArray 303. 区域和检索 - 数组不可变
 type NumArray struct {
-	preSum  []int
-	numsLen int
+	preSum []int
 }
 
 func Constructor(nums []int) NumArray {
 	// 没有元素，直接返回
 	if len(nums) == 0 {
 		return NumArray{
-			preSum:  []int{},
-			numsLen: 0,
+			preSum: []int{},
 		}
 	}
 	// 构建前缀和
 	nA := NumArray{
-		preSum:  make([]int, len(nums)+1),
-		numsLen: len(nums) + 1,
+		preSum: make([]int, len(nums)+1),
 	}
 	for i := 1; i < len(nums)+1; i++ {
 		nA.preSum[i] = nA.preSum[i-1] + nums[i-1]
