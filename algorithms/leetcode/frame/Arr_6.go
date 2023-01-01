@@ -5,8 +5,7 @@ package main
  */
 //双指针
 func removeDuplicates(nums []int) int {
-	fast := 0
-	slow := 0
+	fast, slow := 0, 0
 	for fast < len(nums) {
 		if nums[fast] != nums[slow] {
 			slow++
