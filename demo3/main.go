@@ -8,7 +8,7 @@ import (
 func main() {
 	//集合
 	//数组
-	array := [5]string{"a", "b", "c", "d", "e"}
+	array := [5]string{"a", "b", "c", "d"}
 	fmt.Println(array[2])
 	//省略长度,只适用于所有元素都被初始化的情况
 	array1 := [...]string{"a", "b", "c", "d", "e"}
