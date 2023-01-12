@@ -72,5 +72,9 @@ func Save(saveArticle SaveArticle) {
 	saveArticle.CreateAncientPoetry().SaveAncientPoetry()
 }
 func main() {
-
+	var factory SaveArticle
+	factory = &RedisFactory{}
+	Save(factory)
+	factory = &MysqlFactory{}
+	Save(factory)
 }
