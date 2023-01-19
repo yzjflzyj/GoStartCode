@@ -2,7 +2,7 @@ package main
 
 import "sort"
 
-//300. 最长递增子序列
+// 300. 最长递增子序列
 func lengthOfLIS(nums []int) int {
 	//使得f按照升序排列
 	f := []int{}

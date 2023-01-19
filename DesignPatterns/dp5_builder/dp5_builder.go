@@ -2,33 +2,33 @@ package main
 
 import "fmt"
 
-// 建造者接口
+// Builder 建造者接口
 type Builder interface {
 	Part1()
 	Part2()
 	Part3()
 }
 
-// 指挥者
+// Director 指挥者
 type Director struct {
 	builder Builder
 }
 
-// 构造函数：构造指挥者
+// NewDirector 构造函数：构造指挥者
 func NewDirector(builder Builder) *Director {
 	return &Director{
 		builder: builder,
 	}
 }
 
-// 指挥者执行建造
+// Construct 指挥者执行建造
 func (d *Director) Construct() {
 	d.builder.Part1()
 	d.builder.Part2()
 	d.builder.Part3()
 }
 
-// 具体建造者
+// ConcreteBuilder 具体建造者
 type ConcreteBuilder struct{}
 
 func (b *ConcreteBuilder) Part1() {
