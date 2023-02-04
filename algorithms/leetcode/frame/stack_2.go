@@ -12,9 +12,6 @@ package main
  */
 // 注意左右括号是有顺序要求的，左括号多了，可以后面再补（可以累计），但是右括号多了，当时就要补齐
 func minAddToMakeValid(s string) int {
-	if s == "" {
-		return 0
-	}
 	res := 0
 	need := 0
 	for _, v := range s {
@@ -25,6 +22,37 @@ func minAddToMakeValid(s string) int {
 			if need < 0 {
 				res++
 				need = 0
+			}
+		}
+	}
+	return res + need
+}
+
+/**
+ * 1541. 平衡括号字符串的最少插入次数
+ * 给你一个括号字符串s，它只包含字符'(' 和')'。一个括号字符串被称为平衡的当它满足：
+ * 任何左括号'('必须对应两个连续的右括号'))'。
+ * 左括号'('必须在对应的连续两个右括号'))'之前。
+ * 比方说"())"，"())(())))" 和"(())())))"都是平衡的，")()"，"()))" 和"(()))"都是不平衡的。
+ * 你可以在任意位置插入字符 '(' 和 ')' 使字符串平衡。
+ * 请你返回让 s平衡的最少插入次数。
+ */
+//一个左括号对应两个右括号
+func minInsertions(s string) int {
+	res := 0
+	need := 0
+	for _, v := range s {
+		if v == '(' {
+			need += 2
+			if need&1 == 1 {
+				need--
+				res++
+			}
+		} else {
+			need--
+			if need == -1 {
+				res++
+				need = 1
 			}
 		}
 	}
