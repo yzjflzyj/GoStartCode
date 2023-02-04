@@ -67,6 +67,31 @@ func dailyTemperatures(temperatures []int) []int {
 	return res
 }
 
+/**
+ * 503. 下一个更大元素 II
+ * 给定一个循环数组nums（nums[nums.length - 1]的下一个元素是nums[0]），返回nums中每个元素的 下一个更大元素 。
+ * 数字 x的 下一个更大的元素 是按数组遍历顺序，这个数字之后的第一个比它更大的数，这意味着你应该循环地搜索它的下一个更大的数。
+ * 如果不存在，则输出 -1。
+ */
+//处理环形数组:将数组重复一遍
+func nextGreaterElements(nums []int) []int {
+	n := len(nums)
+	res := make([]int, n)
+	var stack []int
+	for i := 2*n - 1; i >= 0; i-- {
+		val := nums[i%n]
+		for len(stack) > 0 && stack[len(stack)-1] <= val {
+			stack = stack[:len(stack)-1]
+		}
+		if len(stack) > 0 {
+			res[i%n] = stack[len(stack)-1]
+		} else {
+			res[i%n] = -1
+		}
+		stack = append(stack, val)
+	}
+	return res
+}
 func main() {
 	dailyTemperatures([]int{89, 62, 70, 58, 47, 47, 46, 76, 100, 70})
 }
