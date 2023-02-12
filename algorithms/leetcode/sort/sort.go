@@ -85,6 +85,10 @@ func sortByStructFiled() {
 		{"wang wu", 52},
 		{"zhao liu", 26},
 	}
+	// 简写版本
+	//sort.Slice(people, func(i, j int) bool {
+	//	return people[i].Age < people[j].Age
+	//})
 
 	fmt.Println(people)
 
