@@ -11,6 +11,7 @@ import (
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"net/http"
 
+	_ "GoStartCode/data-access/GormTest/docs"
 	"github.com/gin-gonic/gin"
 )
 
