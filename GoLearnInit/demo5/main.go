@@ -32,7 +32,7 @@ func main() {
 	fmt.Println(p3.province)
 }
 
-//结构体定义
+// 结构体定义
 type person struct {
 	name string
 	age  uint
@@ -44,12 +44,12 @@ type address struct {
 	city     string
 }
 
-//接口的实现
+// 接口的实现
 func (p person) String() string {
 	return fmt.Sprintf("the name is %s,age is %d", p.name, p.age)
 }
 
-//函数,参数为接口, person实现了Stringer接口,该函数是面向接口编程的
+// 函数,参数为接口, person实现了Stringer接口,该函数是面向接口编程的
 func printString(s fmt.Stringer) {
 	fmt.Println(s.String())
 }
@@ -59,7 +59,7 @@ func NewPerson(name string) *person {
 	return &person{name: name}
 }
 
-//结构体的组合(接口也可以组合)
+// 结构体的组合(接口也可以组合)
 type person1 struct {
 	name string
 	age  uint

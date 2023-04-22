@@ -13,7 +13,7 @@ func Fibonacci(n int) int {
 	return Fibonacci(n-1) + Fibonacci(n-2)
 }
 
-//双指针
+// 双指针
 func fib(n int) int {
 	if n == 0 || n == 1 {
 		return n
@@ -28,7 +28,7 @@ func fib(n int) int {
 	return a
 }
 
-//缓存已经计算的结果
+// 缓存已经计算的结果
 var cache = map[int]int{}
 
 func fibForCache(n int) int {

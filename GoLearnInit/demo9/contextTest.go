@@ -26,7 +26,8 @@ WithTimeout(parent Context, timeout time.Duration)：生成一个可超时取消
 WithValue(parent Context, key, val interface{})：生成一个可携带 key-value 键值对的 Context。
 */
 
-/**
+/*
+*
 Context 使用原则
 Context 是一种非常好的工具，使用它可以很方便地控制取消多个协程。在 Go 语言标准库中也使用了它们，比如 net/http 中使用 Context 取消网络的请求。
 要更好地使用 Context，有一些使用原则需要尽可能地遵守。
@@ -48,7 +49,7 @@ func main() {
 	contextWithValue()
 }
 
-//完成时退出监控
+// 完成时退出监控
 func watchUntilFinish() {
 	var wg sync.WaitGroup
 	wg.Add(1)
@@ -62,7 +63,7 @@ func watchUntilFinish() {
 	wg.Wait()
 }
 
-//用select+channel完成通知
+// 用select+channel完成通知
 func watchDog(stopCh chan bool, name string) {
 	//开启for select循环，一直后台监控
 	for {
@@ -77,7 +78,7 @@ func watchDog(stopCh chan bool, name string) {
 	}
 }
 
-//context+select的方式，传递停止信息
+// context+select的方式，传递停止信息
 func contextAndSelect() {
 	var wg sync.WaitGroup
 	wg.Add(3)
@@ -114,7 +115,7 @@ func watchDogForContext(ctx context.Context, name string) {
 	}
 }
 
-//传值型子context
+// 传值型子context
 func contextWithValue() {
 	var wg sync.WaitGroup
 	wg.Add(4) //记得这里要改为4，原来是3，因为要多启动一个协程

@@ -37,12 +37,12 @@ func main() {
 
 }
 
-//函数声明
+// 函数声明
 func sum(a, b int) int {
 	return a + b
 }
 
-//多值返回
+// 多值返回
 func sumAndError(a, b int) (int, error) {
 	if a < 0 || b < 0 {
 		return 0, errors.New("a或者b不能是负数")
@@ -50,7 +50,7 @@ func sumAndError(a, b int) (int, error) {
 	return a + b, nil
 }
 
-//返回参数命名,不常用
+// 返回参数命名,不常用
 func sumForNameResult(a, b int) (sum int, err error) {
 	if a < 0 || b < 0 {
 		return 0, errors.New("a或者b不能是负数")
@@ -60,7 +60,7 @@ func sumForNameResult(a, b int) (sum int, err error) {
 	return
 }
 
-//可变参数,实际就是切片,有普通参数时,可变参数要放在最后
+// 可变参数,实际就是切片,有普通参数时,可变参数要放在最后
 func sum1(params ...int) int {
 	sum := 0
 	for _, i := range params {
@@ -69,7 +69,7 @@ func sum1(params ...int) int {
 	return sum
 }
 
-//返回匿名函数
+// 返回匿名函数
 func colsure() func() int {
 	i := 0
 	return func() int {
@@ -80,7 +80,7 @@ func colsure() func() int {
 
 type Age uint //表示定义一个新类型 Age，该类型等价于 uint
 
-//方法声明,方法 String() 就是类型 Age 的方法,类型 Age 是方法 String() 的接收者。
+// 方法声明,方法 String() 就是类型 Age 的方法,类型 Age 是方法 String() 的接收者。
 func (age Age) String() {
 	fmt.Println("the age is", age)
 }

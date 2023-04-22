@@ -32,7 +32,7 @@ type address struct {
 	city     string
 }
 
-//实现了fmt.Stringer接口
+// 实现了fmt.Stringer接口
 func (addr address) String() string {
 	return fmt.Sprintf("the addr is %s%s", addr.province, addr.city)
 }

@@ -4,13 +4,13 @@ import (
 	"fmt"
 )
 
-//定义接口
+// 定义接口
 type WalkRun interface {
 	Walk()
 	Run()
 }
 
-//实现接口的方法，要实现全部方法
+// 实现接口的方法，要实现全部方法
 func (p *person) Walk() {
 	fmt.Printf("%s能走\n", p.name)
 }

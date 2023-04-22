@@ -6,7 +6,8 @@ import (
 	"unsafe"
 )
 
-/**
+/*
+*
 转换规则：
 1. 任何类型的 *T 都可以转换为 unsafe.Pointer；
 2. unsafe.Pointer 也可以转换为任何类型的 *T；
@@ -25,7 +26,7 @@ func main() {
 	sizeOfTest()
 }
 
-//一个 struct 结构体的内存占用大小，等于它包含的字段类型内存占用大小之和。
+// 一个 struct 结构体的内存占用大小，等于它包含的字段类型内存占用大小之和。
 func sizeOfTest() {
 	fmt.Println(unsafe.Sizeof(true))
 	fmt.Println(unsafe.Sizeof(int8(0)))
@@ -37,7 +38,7 @@ func sizeOfTest() {
 	fmt.Println(unsafe.Sizeof([]string{"飞雪u无情", "张三"}))
 }
 
-//通过地址偏移，找到内存，进行操作
+// 通过地址偏移，找到内存，进行操作
 func uintptrTest() {
 	p := new(person)
 	//Name是person的第一个字段不用偏移，即可通过指针修改

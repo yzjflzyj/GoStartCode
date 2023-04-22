@@ -2,7 +2,7 @@ package demo17
 
 import "testing"
 
-//单元测试
+// 单元测试
 func TestFibonacci(t *testing.T) {
 	//预先定义的一组斐波那契数列作为测试用例
 	fsMap := map[int]int{}
@@ -26,7 +26,7 @@ func TestFibonacci(t *testing.T) {
 	}
 }
 
-//基准测试
+// 基准测试
 func BenchmarkFibonacci(b *testing.B) {
 	n := 10
 	b.ReportAllocs() //开启内存统计
@@ -39,7 +39,7 @@ func BenchmarkFibonacci(b *testing.B) {
 	}
 }
 
-//并发基准测试：RunParallel 方法会创建多个 goroutine，并将 b.N 分配给这些 goroutine 执行。
+// 并发基准测试：RunParallel 方法会创建多个 goroutine，并将 b.N 分配给这些 goroutine 执行。
 func BenchmarkFibonacciRunParallel(b *testing.B) {
 	n := 10
 	b.RunParallel(func(pb *testing.PB) {

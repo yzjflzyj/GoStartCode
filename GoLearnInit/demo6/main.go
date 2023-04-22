@@ -58,7 +58,7 @@ func main() {
 	panic("手动抛出panic")
 }
 
-//主动抛异常
+// 主动抛异常
 func add(a, b int) (int, error) {
 	if a < 0 || b < 0 {
 		//return 0, errors.New("a或者b不能为负数")
@@ -70,7 +70,7 @@ func add(a, b int) (int, error) {
 	}
 }
 
-//自定义异常的结构体
+// 自定义异常的结构体
 type commonError struct {
 	errorCode int    //错误码
 	errorMsg  string //错误信息

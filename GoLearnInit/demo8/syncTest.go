@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-//共享的资源
+// 共享的资源
 var sum = 0
 
 func main() {
@@ -29,7 +29,7 @@ func main() {
 	race()
 }
 
-//不安全写
+// 不安全写
 func syncError() {
 	//开启500个协程让sum+10
 	for i := 0; i < 500; i++ {
@@ -44,7 +44,7 @@ func add(i int) {
 	sum += i
 }
 
-//安全写
+// 安全写
 func syncSafe() {
 	//开启500个协程让sum+10
 	for i := 0; i < 500; i++ {
@@ -64,7 +64,7 @@ func addForSafe(i int) {
 	sum += i
 }
 
-//读写锁，在保证不读到脏数组的同时，提升性能，多个读锁可以同时读取
+// 读写锁，在保证不读到脏数组的同时，提升性能，多个读锁可以同时读取
 func syncRead() {
 	for i := 0; i < 500; i++ {
 		go addForSafe(10)
@@ -110,7 +110,7 @@ func run() {
 	wg.Wait()
 }
 
-//sync.Once：只执行一次的场景
+// sync.Once：只执行一次的场景
 func doOnce() {
 	var once sync.Once
 	onceBody := func() {
@@ -129,11 +129,11 @@ func doOnce() {
 	fmt.Println(<-done)
 }
 
-//sync.NewCond，有如下三个方法，它的三个方法 Wait、Signal、Broadcast 就分别对应 Java 中的 wait、notify、notifyAll。
-//1. Wait，阻塞当前协程，直到被其他协程调用 Broadcast 或者 Signal 方法唤醒，使用的时候需要加锁，使用 sync.Cond 中的锁即可，也就是 L 字段。
-//2. Signal，唤醒一个等待时间最长的协程。
-//3. Broadcast，唤醒所有等待的协程。
-//10个人赛跑，1个裁判发号施令
+// sync.NewCond，有如下三个方法，它的三个方法 Wait、Signal、Broadcast 就分别对应 Java 中的 wait、notify、notifyAll。
+// 1. Wait，阻塞当前协程，直到被其他协程调用 Broadcast 或者 Signal 方法唤醒，使用的时候需要加锁，使用 sync.Cond 中的锁即可，也就是 L 字段。
+// 2. Signal，唤醒一个等待时间最长的协程。
+// 3. Broadcast，唤醒所有等待的协程。
+// 10个人赛跑，1个裁判发号施令
 func race() {
 	cond := sync.NewCond(&sync.Mutex{})
 	var wg sync.WaitGroup

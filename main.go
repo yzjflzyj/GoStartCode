@@ -1,12 +1,12 @@
 package main
 
 import (
-	"GoStartCode/data-access/GormTest/models"
-	"GoStartCode/data-access/GormTest/pkg/gredis"
-	"GoStartCode/data-access/GormTest/pkg/logging"
-	"GoStartCode/data-access/GormTest/pkg/setting"
-	"GoStartCode/data-access/GormTest/pkg/util"
-	"GoStartCode/data-access/GormTest/routers"
+	"GoStartCode/GinExample/models"
+	"GoStartCode/GinExample/pkg/gredis"
+	"GoStartCode/GinExample/pkg/logging"
+	"GoStartCode/GinExample/pkg/setting"
+	"GoStartCode/GinExample/pkg/util"
+	"GoStartCode/GinExample/routers"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"

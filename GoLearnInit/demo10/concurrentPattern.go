@@ -32,7 +32,7 @@ func main() {
 	futures()
 }
 
-//5.Futures模式：主路径上等待分支的执行结果
+// 5.Futures模式：主路径上等待分支的执行结果
 func futures() {
 	vegetablesCh := washVegetables() //洗菜
 	waterCh := boilWater()           //烧水
@@ -44,7 +44,7 @@ func futures() {
 	fmt.Println("准备好了，可以做火锅了:", vegetables, water)
 }
 
-//4.扇入扇出模式：组装工序耗时，因此多开两个
+// 4.扇入扇出模式：组装工序耗时，因此多开两个
 func fanInFanOut() {
 	coms := buy(100) //采购100套配件
 	//三班人同时组装100部手机
@@ -60,7 +60,7 @@ func fanInFanOut() {
 	}
 }
 
-//3.Pipeline 模式:采购->组装->打包
+// 3.Pipeline 模式:采购->组装->打包
 func pipeline() {
 	coms := buy(10)       //采购10套配件
 	phones := build(coms) //组装10部手机
@@ -71,8 +71,8 @@ func pipeline() {
 	}
 }
 
-//2.select timeout
-//如果可以使用 Context 的 WithTimeout 函数超时取消，要优先使用。
+// 2.select timeout
+// 如果可以使用 Context 的 WithTimeout 函数超时取消，要优先使用。
 func selectTimeout() {
 	result := make(chan string)
 	go func() {
@@ -88,8 +88,8 @@ func selectTimeout() {
 	}
 }
 
-//3.Pipeline 模式:采购->组装->打包
-//工序1采购
+// 3.Pipeline 模式:采购->组装->打包
+// 工序1采购
 func buy(n int) <-chan string {
 	out := make(chan string)
 	go func() {
@@ -101,7 +101,7 @@ func buy(n int) <-chan string {
 	return out
 }
 
-//工序2组装
+// 工序2组装
 func build(in <-chan string) <-chan string {
 	out := make(chan string)
 	go func() {
@@ -113,7 +113,7 @@ func build(in <-chan string) <-chan string {
 	return out
 }
 
-//工序3打包
+// 工序3打包
 func pack(in <-chan string) <-chan string {
 	out := make(chan string)
 	go func() {
@@ -125,8 +125,8 @@ func pack(in <-chan string) <-chan string {
 	return out
 }
 
-//4.扇入扇出模式：组装工序耗时，因此多开两个
-//扇入函数（组件），把多个chanel中的数据发送到一个channel中
+// 4.扇入扇出模式：组装工序耗时，因此多开两个
+// 扇入函数（组件），把多个chanel中的数据发送到一个channel中
 func merge(ins ...<-chan string) <-chan string {
 	var wg sync.WaitGroup
 	out := make(chan string)
@@ -150,7 +150,7 @@ func merge(ins ...<-chan string) <-chan string {
 	return out
 }
 
-//洗菜
+// 洗菜
 func washVegetables() <-chan string {
 	vegetables := make(chan string)
 	go func() {
@@ -160,7 +160,7 @@ func washVegetables() <-chan string {
 	return vegetables
 }
 
-//烧水
+// 烧水
 func boilWater() <-chan string {
 	water := make(chan string)
 	go func() {

@@ -83,12 +83,12 @@ func sliceAndArr() {
 	sliceF(s1)
 }
 
-//函数传值后数组打印
+// 函数传值后数组打印
 func arrayF(a [2]string) {
 	fmt.Printf("函数arrayF数组指针：%p\n", &a)
 }
 
-//函数传值后的切片数组打印
+// 函数传值后的切片数组打印
 func sliceF(s []string) {
 	fmt.Printf("函数sliceF Data：%d\n", (*reflect.SliceHeader)(unsafe.Pointer(&s)).Data)
 }
