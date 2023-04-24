@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"gorm.io/gorm"
 )
 
@@ -17,7 +18,8 @@ type Tag struct {
 func ExistTagByName(name string) (bool, error) {
 	var tag Tag
 	err := db.Select("id").Where("name = ? AND deleted_on = ? ", name, 0).First(&tag).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
+	// errors.Is(err, gorm.ErrRecordNotFound) 判断出错，目前原因未知
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return false, err
 	}
 
