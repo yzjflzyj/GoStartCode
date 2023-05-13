@@ -25,7 +25,7 @@ func main() {
 	//sync.Once：只执行一次的场景
 	//doOnce()
 
-	//sync.NewCond:类似cyclicbarrier
+	//sync.NewCond:类似CyclicBarrier
 	race()
 }
 
@@ -163,4 +163,35 @@ func race() {
 
 	//防止函数提前返回退出
 	wg.Wait()
+}
+
+// sync.Map的使用
+func syncMapFun() {
+	// 创建一个 sync.Map
+	var m sync.Map
+
+	// 向 map 中添加键值对
+	m.Store("key1", "value1")
+	m.Store(2, "value2")
+
+	// 从 map 中获取键对应的值
+	val1, ok1 := m.Load("key1")
+	val2, ok2 := m.Load(2)
+
+	if ok1 {
+		fmt.Println(val1)
+	}
+
+	if ok2 {
+		fmt.Println(val2)
+	}
+
+	// 删除指定键
+	m.Delete("key1")
+
+	// 遍历所有键值对
+	m.Range(func(key, value interface{}) bool {
+		fmt.Println(key, value)
+		return true
+	})
 }
