@@ -32,6 +32,9 @@ func InitRouter() *gin.Engine {
 	apiv1 := r.Group("/api/v1")
 	apiv1.Use(jwt.JWT())
 	{
+		//新增今天的学习记录
+		apiv1.POST("/addStudyLog", v1.AddStudyLog)
+		apiv1.POST("/queryStudyLogPage", v1.QueryStudyLogPage)
 		//获取标签列表
 		apiv1.GET("/tags", v1.GetTags)
 		//新建标签

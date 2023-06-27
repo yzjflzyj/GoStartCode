@@ -1,7 +1,7 @@
-package main
+package GinExample
 
 import (
-	"GoStartCode/GinExample"
+	//"GoStartCode/GinExample"
 	"database/sql"
 	"fmt"
 	"gorm.io/gorm"
@@ -31,7 +31,7 @@ type Album struct {
 func albumOperate() {
 	album := Album{Title: "song", Artist: "周杰伦", Price: 246}
 
-	result := GinExample.db.Create(&album) // 通过数据的指针来创建
+	result := db.Create(&album) // 通过数据的指针来创建
 	//album.ID             // 返回插入数据的主键
 	//result.Error        // 返回 error
 	//result.RowsAffected // 返回插入记录的条数
@@ -44,17 +44,17 @@ func userAdd() {
 	}
 	user := &User{Name: "Jackson", Age: 19, Birthday: time.Now()}
 	users = append(users, user)
-	result := GinExample.db.Create(users) // pass a slice to insert multiple ROW
+	result := db.Create(users) // pass a slice to insert multiple ROW
 	fmt.Println(result, len(users), result.Error, result.RowsAffected)
 
 	// 下面的批次创建，会开启事物
 	//db.CreateInBatches(users, 100)
 
 	// 指定字段创建
-	GinExample.db.Select("Name", "Age", "CreatedAt").Create(&user)
+	db.Select("Name", "Age", "CreatedAt").Create(&user)
 	// INSERT INTO `users` (`name`,`age`,`created_at`) VALUES ("Jackson", 19, "2023-04-06 11:05:21.775")
 	// 忽略字段创建
-	GinExample.db.Omit("Name", "Age", "CreatedAt").Create(&user)
+	db.Omit("Name", "Age", "CreatedAt").Create(&user)
 }
 
 func main() {

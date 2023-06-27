@@ -19,6 +19,7 @@ func init() {
 	logging.Setup()
 	gredis.Setup()
 	util.Setup()
+	//echart.Setup()
 }
 
 func main() {

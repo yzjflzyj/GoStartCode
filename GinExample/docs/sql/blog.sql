@@ -61,3 +61,21 @@ CREATE TABLE `blog_tag` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文章标签管理';
 
+--学习记录表
+DROP TABLE IF EXISTS `blog_study_log`;
+CREATE TABLE `blog_study_log` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) COMMENT '用户id',
+  `day_of_week` tinyint(3)  COMMENT '星期几',
+  `study_time` int(10) DEFAULT 0 COMMENT '学习时间（分钟数）',
+  `date_time` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP (6) COMMENT '日期',
+  `content` varchar(255) COMMENT '内容',
+  `created_on` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP (6) COMMENT '创建时间',
+  `created_by` varchar(100)  COMMENT '创建人',
+  `modified_on` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP (6) ON UPDATE CURRENT_TIMESTAMP (6) COMMENT '最近修改日期',
+  `modified_by` varchar(100)  COMMENT '修改人',
+  `deleted_on` DATETIME(6)  COMMENT '删除时间',
+  `state` tinyint(3) unsigned DEFAULT 1 COMMENT '状态 0为禁用、1为启用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='学习记录表';
+

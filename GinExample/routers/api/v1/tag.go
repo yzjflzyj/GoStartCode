@@ -8,11 +8,10 @@ import (
 	"GoStartCode/GinExample/pkg/setting"
 	"GoStartCode/GinExample/pkg/util"
 	"GoStartCode/GinExample/service/tag_service"
-	"net/http"
-
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
 	"github.com/unknwon/com"
+	"net/http"
 )
 
 // @Summary Get multiple article tags
@@ -85,6 +84,7 @@ func AddTag(c *gin.Context) {
 		CreatedBy: form.CreatedBy,
 		State:     form.State,
 	}
+	tagService.Add()
 	exists, err := tagService.ExistByName()
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, e.ERROR_EXIST_TAG_FAIL, nil)
