@@ -19,7 +19,7 @@ require (
 	github.com/unknwon/com v1.0.1
 	gopkg.in/ini.v1 v1.67.0
 	gorm.io/driver/mysql v1.4.7
-	gorm.io/gorm v1.24.5
+	gorm.io/gorm v1.25.2
 )
 
 require (

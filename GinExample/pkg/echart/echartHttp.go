@@ -11,7 +11,7 @@ import (
 )
 
 // generate random data for line chart
-func generateItemsByWeek() ([]opts.LineData, []string) {
+func generateItemsByWeek() ([]opts.BarData, []string) {
 	var studyLog = study_log_service.StudyLog{}
 	//studyLogs, _ := studyLog.QueryStudyLogPage()
 	studyLogs, _ := studyLog.QueryStudyLogByDateTime(time.Now().AddDate(0, 0, -7), time.Now())
@@ -26,24 +26,24 @@ func generateItemsByWeek() ([]opts.LineData, []string) {
 	weekMap[6] = "Sat"
 	//展示列表
 	showStrList := make([]string, 0)
-	items := make([]opts.LineData, 0)
+	items := make([]opts.BarData, 0)
 
 	for _, study := range studyLogs {
-		showStrList = append(showStrList, weekMap[study.DayOfWeek])
-		items = append(items, opts.LineData{Value: study.StudyTime})
+		showStrList = append(showStrList, weekMap[study.DayOfWeek]+"\n"+study.DateTime.Format("2006-01-02"))
+		items = append(items, opts.BarData{Value: study.StudyTime})
 	}
 	return items, showStrList
 }
 
 func httpserver(w http.ResponseWriter, _ *http.Request) {
 	// create a new line instance
-	line := charts.NewLine()
+	line := charts.NewBar()
 	// set some global options like Title/Legend/ToolTip or anything else
 	line.SetGlobalOptions(
-		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeWesteros}),
+		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeMacarons}),
 		charts.WithTitleOpts(opts.Title{
-			Title:    "Line example in Westeros theme",
-			Subtitle: "Line chart rendered by the http server this time",
+			Title:    "大title",
+			Subtitle: "子title",
 		}))
 
 	items, showStrList := generateItemsByWeek()

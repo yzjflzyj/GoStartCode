@@ -44,7 +44,32 @@ func QueryStudyLogByDateTime(begin time.Time, end time.Time) ([]StudyLog, error)
 		err          error
 	)
 
-	err = db.Where("date_time between ? and ?", begin, end).Find(&studyLogList).Error
+	/**
+	SELECT t.id,t.day_of_week, date(t.date_time),t.content, s.study_time
+	FROM blog_study_log_t AS t
+	JOIN (
+	  SELECT sum(study_time) as study_time, MIN(id) as min_id
+	  FROM blog_study_log_t
+	  GROUP BY date(date_time)
+	) AS s ON t.id = s.min_id;
+	*/
+
+	/*//GORM v2.0.0才支持设置别名，当前版本1.25.2
+	subQuery := db.Model(&StudyLog{}).
+		Select("SUM(study_time) AS study_time, MIN(id) AS min_id").
+		Group("DATE(date_time)").SubQuery()
+	db.Model(&StudyLog{}).
+		Alias("t"). //GORM v2.0.0才支持设置别名
+		Select("t.id, t.day_of_week, DATE(t.date_time), t.content, s.study_time").
+		Joins("JOIN (?) AS s ON t.id = s.min_id", subQuery).
+		Find(&studyLogList)
+	*/
+
+	// 原生sql的方式
+	db.Table("blog_study_log AS t").
+		Joins("JOIN (SELECT SUM(study_time) AS study_time, MIN(id) AS min_id FROM blog_study_log GROUP BY DATE(date_time)) AS s ON t.id = s.min_id").
+		Select("t.id, t.day_of_week, t.date_time, t.content, s.study_time").
+		Scan(&studyLogList)
 
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
