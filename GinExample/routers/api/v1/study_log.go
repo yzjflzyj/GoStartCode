@@ -47,9 +47,9 @@ func AddStudyLog(c *gin.Context) {
 		CreatedBy:  "时海徜徉",
 		ModifiedBy: "时海徜徉",
 		State:      1,
-		ModifiedOn: dateTime,
-		CreatedOn:  dateTime,
-		DeletedOn:  dateTime,
+		ModifiedOn: time.Now(),
+		CreatedOn:  time.Now(),
+		DeletedOn:  time.Now(),
 	}
 	err := studyLog.Add()
 

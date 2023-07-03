@@ -48,12 +48,13 @@ func httpserver(w http.ResponseWriter, _ *http.Request) {
 
 	// 提取匹配的日期字符串
 	earliestStudyDate := dateRegex.FindStringSubmatch(showStrList[0])[0]
+	lastestStudyDate := dateRegex.FindStringSubmatch(showStrList[len(showStrList)-1])[0]
 	// set some global options like Title/Legend/ToolTip or anything else
 	line.SetGlobalOptions(
 		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeWalden}),
 		charts.WithTitleOpts(opts.Title{
 			Title:    "总学习时长： " + strconv.Itoa(totalStudyTime) + " min",
-			Subtitle: "最早开始时间：" + earliestStudyDate,
+			Subtitle: "最早学习时间：" + earliestStudyDate + "  最近学习时间：" + lastestStudyDate,
 		}))
 
 	// Put data into instance
