@@ -46,12 +46,13 @@ func QueryStudyLogByDateTime(begin time.Time, end time.Time) ([]StudyLog, error)
 
 	/**
 	SELECT t.id,t.day_of_week, date(t.date_time),t.content, s.study_time
-	FROM blog_study_log_t AS t
+	FROM blog_study_log AS t
 	JOIN (
 	  SELECT sum(study_time) as study_time, MIN(id) as min_id
-	  FROM blog_study_log_t
+	  FROM blog_study_log
 	  GROUP BY date(date_time)
-	) AS s ON t.id = s.min_id;
+	) AS s ON t.id = s.min_id
+	order by date(t.date_time) asc;
 	*/
 
 	/*//GORM v2.0.0才支持设置别名，当前版本1.25.2
@@ -62,6 +63,7 @@ func QueryStudyLogByDateTime(begin time.Time, end time.Time) ([]StudyLog, error)
 		Alias("t"). //GORM v2.0.0才支持设置别名
 		Select("t.id, t.day_of_week, DATE(t.date_time), t.content, s.study_time").
 		Joins("JOIN (?) AS s ON t.id = s.min_id", subQuery).
+	    Order("DATE(t.date_time) ASC").
 		Find(&studyLogList)
 	*/
 
@@ -69,6 +71,7 @@ func QueryStudyLogByDateTime(begin time.Time, end time.Time) ([]StudyLog, error)
 	db.Table("blog_study_log AS t").
 		Joins("JOIN (SELECT SUM(study_time) AS study_time, MIN(id) AS min_id FROM blog_study_log GROUP BY DATE(date_time)) AS s ON t.id = s.min_id").
 		Select("t.id, t.day_of_week, t.date_time, t.content, s.study_time").
+		Order("DATE(t.date_time) ASC").
 		Scan(&studyLogList)
 
 	if err != nil && err != gorm.ErrRecordNotFound {

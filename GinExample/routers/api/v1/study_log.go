@@ -13,6 +13,7 @@ type AddStudyLogForm struct {
 	UserId    int    `form:"User_Id"`
 	StudyTime int    `form:"Study_Time"`
 	Content   string `form:"content"`
+	DateTime  string `form:"Date_Time"`
 }
 
 func AddStudyLog(c *gin.Context) {
@@ -26,20 +27,29 @@ func AddStudyLog(c *gin.Context) {
 		appG.Response(httpCode, errCode, nil)
 		return
 	}
+	// 获取日期
+	dateTime := func(dateString string) time.Time {
+		if dateString == "" {
+			return time.Now()
+		}
+		layout := "2006-01-02" // 指定日期的格式
+		dateTime, _ := time.Parse(layout, dateString)
+		return dateTime
+	}(form.DateTime)
 
 	// 增加学习记录
 	var studyLog = study_log_service.StudyLog{
 		UserId:     form.UserId,
-		DayOfWeek:  int(time.Now().Weekday()),
+		DayOfWeek:  int(dateTime.Weekday()),
 		StudyTime:  form.StudyTime,
-		DateTime:   time.Now(),
+		DateTime:   dateTime,
 		Content:    form.Content,
 		CreatedBy:  "时海徜徉",
 		ModifiedBy: "时海徜徉",
 		State:      1,
-		ModifiedOn: time.Now(),
-		CreatedOn:  time.Now(),
-		DeletedOn:  time.Now(),
+		ModifiedOn: dateTime,
+		CreatedOn:  dateTime,
+		DeletedOn:  dateTime,
 	}
 	err := studyLog.Add()
 

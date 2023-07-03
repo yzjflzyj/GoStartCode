@@ -58,6 +58,7 @@ func main() {
 	//strings包
 	//判断s1的前缀是否是H
 	fmt.Println(strings.HasPrefix(s1, "H"))
+	fmt.Println(strings.HasSuffix(s1, "o"))
 	//在s1中查找字符串o
 	fmt.Println(strings.Index(s1, "o"))
 	//把s1全部转为大写

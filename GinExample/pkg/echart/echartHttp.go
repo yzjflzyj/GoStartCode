@@ -3,6 +3,8 @@ package echart
 import (
 	"GoStartCode/GinExample/service/study_log_service"
 	"net/http"
+	"regexp"
+	"strconv"
 	"time"
 
 	"github.com/go-echarts/go-echarts/v2/charts"
@@ -11,7 +13,7 @@ import (
 )
 
 // generate random data for line chart
-func generateItemsByWeek() ([]opts.BarData, []string) {
+func generateItemsByWeek() ([]opts.BarData, []string, int) {
 	var studyLog = study_log_service.StudyLog{}
 	//studyLogs, _ := studyLog.QueryStudyLogPage()
 	studyLogs, _ := studyLog.QueryStudyLogByDateTime(time.Now().AddDate(0, 0, -7), time.Now())
@@ -28,28 +30,35 @@ func generateItemsByWeek() ([]opts.BarData, []string) {
 	showStrList := make([]string, 0)
 	items := make([]opts.BarData, 0)
 
+	totalStudyTime := 0
 	for _, study := range studyLogs {
 		showStrList = append(showStrList, weekMap[study.DayOfWeek]+"\n"+study.DateTime.Format("2006-01-02"))
 		items = append(items, opts.BarData{Value: study.StudyTime})
+		totalStudyTime += study.StudyTime
 	}
-	return items, showStrList
+	return items, showStrList, totalStudyTime
 }
 
 func httpserver(w http.ResponseWriter, _ *http.Request) {
 	// create a new line instance
 	line := charts.NewBar()
+
+	items, showStrList, totalStudyTime := generateItemsByWeek()
+	dateRegex := regexp.MustCompile(`(\d{4}-\d{2}-\d{2})`)
+
+	// 提取匹配的日期字符串
+	earliestStudyDate := dateRegex.FindStringSubmatch(showStrList[0])[0]
 	// set some global options like Title/Legend/ToolTip or anything else
 	line.SetGlobalOptions(
-		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeMacarons}),
+		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeWalden}),
 		charts.WithTitleOpts(opts.Title{
-			Title:    "大title",
-			Subtitle: "子title",
+			Title:    "总学习时长： " + strconv.Itoa(totalStudyTime) + " min",
+			Subtitle: "最早开始时间：" + earliestStudyDate,
 		}))
 
-	items, showStrList := generateItemsByWeek()
 	// Put data into instance
 	line.SetXAxis(showStrList).
-		AddSeries("郭翠霞是2b", items).
+		AddSeries("学习记录", items).
 		SetSeriesOptions(charts.WithLineChartOpts(opts.LineChart{Smooth: true}))
 	line.Render(w)
 }
