@@ -1,0 +1,4 @@
+[ERROR][auth.go:31]2023/07/04 23:44:52 [error测试]
+[INFO][auth.go:32]2023/07/04 23:44:52 [info测试]
+[ERROR][auth.go:31]2023/07/04 23:58:45 [error测试]
+[INFO][auth.go:32]2023/07/04 23:58:45 [info测试]

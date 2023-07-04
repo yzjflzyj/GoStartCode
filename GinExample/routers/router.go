@@ -6,6 +6,7 @@ import (
 	"GoStartCode/GinExample/pkg/qrcode"
 	"GoStartCode/GinExample/pkg/upload"
 	"GoStartCode/GinExample/routers/api"
+	"GoStartCode/GinExample/routers/api/echart"
 	"GoStartCode/GinExample/routers/api/v1"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
@@ -32,9 +33,6 @@ func InitRouter() *gin.Engine {
 	apiv1 := r.Group("/api/v1")
 	apiv1.Use(jwt.JWT())
 	{
-		//新增今天的学习记录
-		apiv1.POST("/addStudyLog", v1.AddStudyLog)
-		apiv1.POST("/queryStudyLogPage", v1.QueryStudyLogPage)
 		//获取标签列表
 		apiv1.GET("/tags", v1.GetTags)
 		//新建标签
@@ -61,6 +59,13 @@ func InitRouter() *gin.Engine {
 		//生成文章海报
 		apiv1.POST("/articles/poster/generate", v1.GenerateArticlePoster)
 	}
+
+	//新增今天的学习记录
+	r.POST("/addStudyLog", v1.AddStudyLog)
+	// 分页查询学习记录
+	r.POST("/queryStudyLogPage", v1.QueryStudyLogPage)
+	// e-chart页面
+	r.GET("/chart", echart.ChartHandler)
 
 	return r
 }

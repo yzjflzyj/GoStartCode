@@ -2,7 +2,6 @@ package main
 
 import (
 	"GoStartCode/GinExample/models"
-	"GoStartCode/GinExample/pkg/echart"
 	"GoStartCode/GinExample/pkg/gredis"
 	"GoStartCode/GinExample/pkg/logging"
 	"GoStartCode/GinExample/pkg/setting"
@@ -20,7 +19,6 @@ func init() {
 	logging.Setup()
 	gredis.Setup()
 	util.Setup()
-	echart.Setup()
 }
 
 func main() {
