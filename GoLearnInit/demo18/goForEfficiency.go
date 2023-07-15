@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 //性能优化:
 //Go 语言有两部分内存空间：栈内存和堆内存。
 //● 栈内存由编译器自动分配和释放，开发者无法控制。
@@ -14,5 +16,36 @@ package main
 // 如果避免不了逃逸，还是在堆上分配了内存，那么对于频繁的内存申请操作，我们要学会重用内存，比如使用 sync.Pool，这是第 2 个技巧。
 // 第 3 个技巧就是选用合适的算法，达到高性能的目的，比如空间换时间。
 func main() {
+	//go循环变量问题：案例1，取地址符
+	items := []Item{Item(1), Item(2), Item(3)}
+	var all []*Item
+	var all2 []Item
+	// 在每次存入变量 all 的都是相同的 item， 因此需要在处理前 item := item
+	for _, item := range items {
+		all2 = append(all2, item)
+		all = append(all, &item)
+	}
 
+	for _, e := range all {
+		e.String()
+	}
+
+	for _, e := range all2 {
+		e.String()
+	}
+
+	//go循环变量问题：案例2，闭包函数
+	var prints []func()
+	for _, v := range []int{1, 2, 3} {
+		prints = append(prints, func() { fmt.Println(v) })
+	}
+	for _, print := range prints {
+		print()
+	}
+}
+
+type Item uint
+
+func (item Item) String() {
+	fmt.Println("the item is", item)
 }
