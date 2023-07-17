@@ -13,18 +13,18 @@ type NumMatrix struct {
 }
 
 func Constructor1(matrix [][]int) NumMatrix {
-	var rows, cols int
+	var row, col int
 	if len(matrix) == 0 {
-		rows, cols = 1, 1
+		row, col = 1, 1
 	} else {
-		rows, cols = len(matrix)+1, len(matrix[0])+1
+		row, col = len(matrix)+1, len(matrix[0])+1
 	}
-	preSum := make([][]int, rows)
-	for i := range preSum {
-		preSum[i] = make([]int, cols)
+	preSum := make([][]int, row)
+	for i := 0; i < row; i++ {
+		preSum[i] = make([]int, col)
 	}
-	for i := 1; i < rows; i++ {
-		for j := 1; j < cols; j++ {
+	for i := 1; i < row; i++ {
+		for j := 1; j < col; j++ {
 			preSum[i][j] = preSum[i-1][j] + preSum[i][j-1] - preSum[i-1][j-1] + matrix[i-1][j-1]
 		}
 	}
