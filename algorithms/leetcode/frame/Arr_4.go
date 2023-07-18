@@ -9,17 +9,16 @@ package main
  */
 //差分数组
 func corpFlightBookings(bookings [][]int, n int) []int {
-	// 构造差分数组
-	counters := make([]int, n)
-	for _, v := range bookings {
-		counters[v[0]-1] += v[2]
-		if v[1] < n {
-			counters[v[1]] -= v[2]
+	// 构建差分数组
+	diffArr := make([]int, n)
+	for i := range bookings {
+		diffArr[bookings[i][0]-1] += bookings[i][2]
+		if bookings[i][1] < n {
+			diffArr[bookings[i][1]] -= bookings[i][2]
 		}
 	}
-	// 差分数组展开
 	for i := 1; i < n; i++ {
-		counters[i] += counters[i-1]
+		diffArr[i] += diffArr[i-1]
 	}
-	return counters
+	return diffArr
 }
