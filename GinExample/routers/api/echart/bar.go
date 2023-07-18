@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-func generateItemsByWeek() ([]opts.BarData, []string, int) {
+func generateItemsByWeekBar() ([]opts.BarData, []string, int) {
 	var studyLog = study_log_service.StudyLog{}
 	//studyLogs, _ := studyLog.QueryStudyLogPage()
 	studyLogs, _ := studyLog.QueryStudyLogByDateTime(time.Now().AddDate(0, 0, -7), time.Now())
@@ -32,17 +32,30 @@ func generateItemsByWeek() ([]opts.BarData, []string, int) {
 	items := make([]opts.BarData, 0)
 
 	totalStudyTime := 0
-	for _, study := range studyLogs {
-		showStrList = append(showStrList, weekMap[study.DayOfWeek]+"\n"+study.DateTime.Format("2006-01-02"))
-		items = append(items, opts.BarData{Value: study.StudyTime})
-		totalStudyTime += study.StudyTime
+	firstStudyLogDate := studyLogs[0].DateTime
+	lastStudyLogDate := studyLogs[len(studyLogs)-1].DateTime
+	duration := lastStudyLogDate.Sub(firstStudyLogDate)
+	days := int(duration.Hours()/24) + 1
+	index := 0
+	// 将没有记录的，也展示
+	for i := 0; i < days; i++ {
+		date := firstStudyLogDate.AddDate(0, 0, i)
+		showStrList = append(showStrList, weekMap[int(date.Weekday())]+"\n"+date.Format("2006-01-02"))
+		//判断同一天date1.Year() == date2.Year() && date1.YearDay() == date2.YearDay()
+		if studyLogs[index].DateTime.Year() == date.Year() && studyLogs[index].DateTime.YearDay() == date.YearDay() {
+			items = append(items, opts.BarData{Value: studyLogs[index].StudyTime})
+			totalStudyTime += studyLogs[index].StudyTime
+			index++
+		} else {
+			items = append(items, opts.BarData{Value: 0})
+		}
 	}
 	return items, showStrList, totalStudyTime
 }
 
 func getBar() *charts.Bar {
 	// 获取数据
-	items, showStrList, totalStudyTime := generateItemsByWeek()
+	items, showStrList, totalStudyTime := generateItemsByWeekBar()
 	earliestStudyDate, lastStudyDate := getStudyDateStr(showStrList)
 	// create a new line instance
 	bar := charts.NewBar()
@@ -53,16 +66,24 @@ func getBar() *charts.Bar {
 			Title:    "总学习时长： " + strconv.Itoa(totalStudyTime) + " min",
 			Subtitle: "最早学习时间：" + earliestStudyDate + "  最近学习时间：" + lastStudyDate,
 			Link:     "https://github.com/go-echarts/examples",
-			Right:    "30%",
+			Right:    "70%",
 		}),
 		charts.WithToolboxOpts(opts.Toolbox{Show: true}),
 		charts.WithLegendOpts(opts.Legend{Show: true, Right: "10%"}),
+		// 调整图的大小
+		charts.WithInitializationOpts(opts.Initialization{
+			Width:  "2000px",
+			Height: "800px",
+		}),
 	)
 
 	// Put data into instance
 	bar.SetXAxis(showStrList).
 		AddSeries("学习记录", items).
-		SetSeriesOptions(charts.WithLineChartOpts(opts.LineChart{Smooth: true}))
+		SetSeriesOptions(
+			charts.WithLineChartOpts(opts.LineChart{Smooth: true}),
+			//在顶端展示数值
+			charts.WithLabelOpts(opts.Label{Show: true, Position: "top"}))
 	return bar
 }
 
