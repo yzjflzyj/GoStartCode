@@ -76,8 +76,19 @@ func getLine() *charts.Line {
 		AddSeries("学习记录", items).
 		SetSeriesOptions(
 			charts.WithLineChartOpts(opts.LineChart{Smooth: true}),
-			//在顶端展示数值
-			charts.WithLabelOpts(opts.Label{Show: true, Position: "top"}))
+			// 标志点
+			charts.WithMarkPointNameTypeItemOpts(
+				opts.MarkPointNameTypeItem{Name: "Maximum", Type: "max"},
+				opts.MarkPointNameTypeItem{Name: "Average", Type: "average"},
+				opts.MarkPointNameTypeItem{Name: "Minimum", Type: "min"},
+			),
+			charts.WithMarkPointStyleOpts(
+				opts.MarkPointStyle{Label: &opts.Label{Show: true}}),
+			//title and label options
+			charts.WithLineChartOpts(opts.LineChart{ShowSymbol: true}),
+			charts.WithLabelOpts(opts.Label{Show: true}),
+		)
+
 	return line
 }
 
