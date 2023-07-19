@@ -46,5 +46,4 @@ func (studyLog *StudyLog) QueryStudyLogPage() ([]models.StudyLog, error) {
 
 func (studyLog *StudyLog) QueryStudyLogByDateTime(begin time.Time, end time.Time) ([]models.StudyLog, error) {
 	return models.QueryStudyLogByDateTime(begin, end)
-
 }

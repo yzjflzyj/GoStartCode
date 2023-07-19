@@ -14,10 +14,11 @@ import (
 	"time"
 )
 
+// 组装bar所需数据
 func generateItemsByWeekBar() ([]opts.BarData, []string, int) {
 	var studyLog = study_log_service.StudyLog{}
 	//studyLogs, _ := studyLog.QueryStudyLogPage()
-	studyLogs, _ := studyLog.QueryStudyLogByDateTime(time.Now().AddDate(0, 0, -7), time.Now())
+	studyLogs, _ := studyLog.QueryStudyLogByDateTime(time.Now().AddDate(0, 0, -9), time.Now())
 	//星期常量map
 	weekMap := make(map[int]string)
 	weekMap[0] = "Sun"
@@ -53,6 +54,16 @@ func generateItemsByWeekBar() ([]opts.BarData, []string, int) {
 	return items, showStrList, totalStudyTime
 }
 
+// bar底部的展示字符串
+func getStudyDateStr(showStrList []string) (string, string) {
+	dateRegex := regexp.MustCompile(`(\d{4}-\d{2}-\d{2})`)
+
+	// 提取匹配的日期字符串
+	earliestStudyDate := dateRegex.FindStringSubmatch(showStrList[0])[0]
+	lastStudyDate := dateRegex.FindStringSubmatch(showStrList[len(showStrList)-1])[0]
+	return earliestStudyDate, lastStudyDate
+}
+
 func getBar() *charts.Bar {
 	// 获取数据
 	items, showStrList, totalStudyTime := generateItemsByWeekBar()
@@ -61,19 +72,19 @@ func getBar() *charts.Bar {
 	bar := charts.NewBar()
 	// set some global options like Title/Legend/ToolTip or anything else
 	bar.SetGlobalOptions(
-		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeWalden}),
+		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeRoma}),
 		charts.WithTitleOpts(opts.Title{
 			Title:    "总学习时长： " + strconv.Itoa(totalStudyTime) + " min",
 			Subtitle: "最早学习时间：" + earliestStudyDate + "  最近学习时间：" + lastStudyDate,
 			Link:     "https://github.com/go-echarts/examples",
-			Right:    "70%",
+			Right:    "60%",
 		}),
 		charts.WithToolboxOpts(opts.Toolbox{Show: true}),
 		charts.WithLegendOpts(opts.Legend{Show: true, Right: "10%"}),
 		// 调整图的大小
 		charts.WithInitializationOpts(opts.Initialization{
-			Width:  "2000px",
-			Height: "800px",
+			Width:  "1000px",
+			Height: "400px",
 		}),
 	)
 
@@ -87,20 +98,13 @@ func getBar() *charts.Bar {
 	return bar
 }
 
-func getStudyDateStr(showStrList []string) (string, string) {
-	dateRegex := regexp.MustCompile(`(\d{4}-\d{2}-\d{2})`)
-
-	// 提取匹配的日期字符串
-	earliestStudyDate := dateRegex.FindStringSubmatch(showStrList[0])[0]
-	lastStudyDate := dateRegex.FindStringSubmatch(showStrList[len(showStrList)-1])[0]
-	return earliestStudyDate, lastStudyDate
-}
-
 func ChartHandler(c *gin.Context) {
 	bar := getBar()
+	line := getLine()
 	// 渲染图表到一个HTML页面
 	page := components.NewPage()
 	page.AddCharts(bar,
+		line,
 		barBasic(),
 		barTitle(),
 		barTooltip(),

@@ -52,7 +52,9 @@ func QueryStudyLogByDateTime(begin time.Time, end time.Time) ([]StudyLog, error)
 	  FROM blog_study_log
 	  GROUP BY date(date_time)
 	) AS s ON t.id = s.min_id
-	order by date(t.date_time) asc;
+	#where t.date_time between STR_TO_DATE('2023-05-11', '%Y-%m-%d') and STR_TO_DATE('2023-06-05', '%Y-%m-%d')
+	where t.date_time between '2023-07-12' and '2023-07-19'
+	order by t.date_time asc
 	*/
 
 	/*//GORM v2.0.0才支持设置别名，当前版本1.25.2
@@ -71,7 +73,8 @@ func QueryStudyLogByDateTime(begin time.Time, end time.Time) ([]StudyLog, error)
 	db.Table("blog_study_log AS t").
 		Joins("JOIN (SELECT SUM(study_time) AS study_time, MIN(id) AS min_id FROM blog_study_log GROUP BY DATE(date_time)) AS s ON t.id = s.min_id").
 		Select("t.id, t.day_of_week, t.date_time, t.content, s.study_time").
-		Order("DATE(t.date_time) ASC").
+		Where("t.date_time BETWEEN ? AND ?", begin, end).
+		Order("t.date_time ASC").
 		Scan(&studyLogList)
 
 	if err != nil && err != gorm.ErrRecordNotFound {

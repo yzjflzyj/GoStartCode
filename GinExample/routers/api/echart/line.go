@@ -1,10 +1,85 @@
 package echart
 
 import (
+	"GoStartCode/GinExample/service/study_log_service"
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
+	"github.com/go-echarts/go-echarts/v2/types"
 	"math/rand"
+	"strconv"
+	"time"
 )
+
+// 组装bar所需数据
+func generateAllItemsLine() ([]opts.LineData, []string, int) {
+	var studyLog = study_log_service.StudyLog{}
+	studyLogs, _ := studyLog.QueryStudyLogByDateTime(time.Now().AddDate(-6, 0, 0), time.Now())
+	//星期常量map
+	weekMap := make(map[int]string)
+	weekMap[0] = "Sun"
+	weekMap[1] = "Mon"
+	weekMap[2] = "Tue"
+	weekMap[3] = "Wed"
+	weekMap[4] = "Thu"
+	weekMap[5] = "Fri"
+	weekMap[6] = "Sat"
+	//展示列表
+	showStrList := make([]string, 0)
+	items := make([]opts.LineData, 0)
+
+	totalStudyTime := 0
+	firstStudyLogDate := studyLogs[0].DateTime
+	lastStudyLogDate := studyLogs[len(studyLogs)-1].DateTime
+	duration := lastStudyLogDate.Sub(firstStudyLogDate)
+	days := int(duration.Hours()/24) + 1
+	index := 0
+	// 将没有记录的，也展示
+	for i := 0; i < days; i++ {
+		date := firstStudyLogDate.AddDate(0, 0, i)
+		showStrList = append(showStrList, weekMap[int(date.Weekday())]+"\n"+date.Format("2006-01-02"))
+		//判断同一天date1.Year() == date2.Year() && date1.YearDay() == date2.YearDay()
+		if studyLogs[index].DateTime.Year() == date.Year() && studyLogs[index].DateTime.YearDay() == date.YearDay() {
+			items = append(items, opts.LineData{Value: studyLogs[index].StudyTime})
+			totalStudyTime += studyLogs[index].StudyTime
+			index++
+		} else {
+			items = append(items, opts.LineData{Value: 0})
+		}
+	}
+	return items, showStrList, totalStudyTime
+}
+
+func getLine() *charts.Line {
+	// 获取数据
+	items, showStrList, totalStudyTime := generateAllItemsLine()
+	earliestStudyDate, lastStudyDate := getStudyDateStr(showStrList)
+	line := charts.NewLine()
+	line.SetGlobalOptions(
+		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeEssos}),
+		charts.WithTitleOpts(opts.Title{
+			Title:    "总学习时长： " + strconv.Itoa(totalStudyTime) + " min",
+			Subtitle: "最早学习时间：" + earliestStudyDate + "  最近学习时间：" + lastStudyDate,
+			Link:     "https://github.com/go-echarts/examples",
+			Right:    "70%",
+		}),
+		charts.WithToolboxOpts(opts.Toolbox{Show: true}),
+		charts.WithLegendOpts(opts.Legend{Show: true, Right: "10%"}),
+		// 调整图的大小
+		charts.WithInitializationOpts(opts.Initialization{
+			Width:  "2000px",
+			Height: "800px",
+		}),
+	)
+
+	// Put data into instance
+	line.SetXAxis(showStrList).
+		AddSeries("学习记录", items).
+		SetSeriesOptions(
+			charts.WithLineChartOpts(opts.LineChart{Smooth: true}),
+			//在顶端展示数值
+			charts.WithLabelOpts(opts.Label{Show: true, Position: "top"}))
+	return line
+}
 
 var (
 	itemCntLine = 6
