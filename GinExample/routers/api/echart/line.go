@@ -55,7 +55,7 @@ func getLine() *charts.Line {
 	earliestStudyDate, lastStudyDate := getStudyDateStr(showStrList)
 	line := charts.NewLine()
 	line.SetGlobalOptions(
-		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeEssos}),
+		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemePurplePassion}),
 		charts.WithTitleOpts(opts.Title{
 			Title:    "总学习时长： " + strconv.Itoa(totalStudyTime) + " min",
 			Subtitle: "最早学习时间：" + earliestStudyDate + "  最近学习时间：" + lastStudyDate,
