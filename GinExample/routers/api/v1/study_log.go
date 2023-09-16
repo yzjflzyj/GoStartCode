@@ -3,6 +3,8 @@ package v1
 import (
 	app "GoStartCode/GinExample/pkg/app"
 	"GoStartCode/GinExample/pkg/e"
+	"GoStartCode/GinExample/pkg/export"
+	"GoStartCode/GinExample/pkg/logging"
 	"GoStartCode/GinExample/service/study_log_service"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -78,4 +80,53 @@ func QueryStudyLogPage(c *gin.Context) {
 		"lists": studyLogs,
 		"total": 100,
 	})
+}
+
+// ExportStudyLog @Summary Export StudyLog
+// @Produce  json
+// @Param name body string false "Name"
+// @Param state body int false "State"
+// @Success 200 {object} app.Response
+// @Failure 500 {object} app.Response
+// @Router /api/v1/tags/export [post]
+func ExportStudyLog(c *gin.Context) {
+	appG := app.Gin{C: c}
+	var studyLog = study_log_service.StudyLog{}
+	filename, err := studyLog.Export()
+	if err != nil {
+		appG.Response(http.StatusInternalServerError, e.ERROR_EXPORT_TAG_FAIL, nil)
+		return
+	}
+
+	appG.Response(http.StatusOK, e.SUCCESS, map[string]string{
+		"export_url":      export.GetExcelFullUrl(filename),
+		"export_save_url": export.GetExcelPath() + filename,
+	})
+}
+
+// ImportStudyLog @Summary Import StudyLog
+// @Produce  json
+// @Param file body file true "Excel File"
+// @Success 200 {object} app.Response
+// @Failure 500 {object} app.Response
+// @Router /api/v1/tags/import [post]
+func ImportStudyLog(c *gin.Context) {
+	appG := app.Gin{C: c}
+
+	file, _, err := c.Request.FormFile("file")
+	if err != nil {
+		logging.Warn(err)
+		appG.Response(http.StatusInternalServerError, e.ERROR, nil)
+		return
+	}
+
+	var studyLog = study_log_service.StudyLog{}
+	err = studyLog.Import(file)
+	if err != nil {
+		logging.Warn(err)
+		appG.Response(http.StatusInternalServerError, e.ERROR_IMPORT_TAG_FAIL, nil)
+		return
+	}
+
+	appG.Response(http.StatusOK, e.SUCCESS, nil)
 }

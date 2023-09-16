@@ -66,6 +66,10 @@ func InitRouter() *gin.Engine {
 	r.POST("/queryStudyLogPage", v1.QueryStudyLogPage)
 	// e-chart页面
 	r.GET("/chart", echart.ChartHandler)
+	//学习记录导出
+	r.POST("/studyLogExport", v1.ExportStudyLog)
+	//学习记录导入
+	r.POST("/studyLogImport", v1.ImportStudyLog)
 
 	return r
 }
