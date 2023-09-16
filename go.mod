@@ -63,6 +63,7 @@ require (
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.32.1 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
+	github.com/robfig/cron v1.2.0 // indirect
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
 	github.com/swaggo/files v1.0.1 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
