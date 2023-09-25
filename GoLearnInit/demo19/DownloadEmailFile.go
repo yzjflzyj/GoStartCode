@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 )
@@ -29,23 +28,6 @@ Cc: %s
 
 	%s`, subject, to, cc, body)
 
-	// 定义用于生成 HTML 页面的模板
-	_, err := template.New("email").Parse(`
-        <!DOCTYPE html>
-        <html>
-            <head>
-                <title>Email</title>
-            </head>
-            <body>
-                <h1>Download Email</h1>
-                <a href="/download/email.eml">Download Email</a>
-            </body>
-        </html>
-    `)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	// 定义处理下载请求的路由函数
 	http.HandleFunc("/download/", func(w http.ResponseWriter, r *http.Request) {
 		// 设置响应头，指定文件名和 MIME 类型
@@ -53,7 +35,7 @@ Cc: %s
 		w.Header().Set("Content-Type", "application/octet-stream")
 
 		// 将邮件内容写入响应体
-		_, err = w.Write([]byte(emailContent))
+		_, err := w.Write([]byte(emailContent))
 		if err != nil {
 			log.Fatal(err)
 		}
