@@ -1,0 +1,12 @@
+To: recipient@example.com
+Cc: cc@example.com
+Subject: Test Email
+Content-Type: text/html; charset=UTF-8
+
+<html>
+	<head></head>
+	<body>
+	<h1>Hello, this is a test email</h1>
+	<p>This email contains <strong>formatted</strong> text.</p>
+	</body>
+	</html>

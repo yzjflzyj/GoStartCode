@@ -13,17 +13,24 @@ func main() {
 	subject := "Test email"
 	to := "receiver@example.com"
 	cc := "cc@example.com"
-	body := "Hello, this is a test email."
+	body := `<html>
+	<head></head>
+	<body>
+	<h1>Hello, this is a test email</h1>
+	<p>This email contains <strong>formatted</strong> text.</p>
+	</body>
+	</html>` // 邮件内容（HTML格式）
 
 	// 将主题、收件人、抄送人和内容组合成一个字符串
 	emailContent := fmt.Sprintf(`Subject: %s
 To: %s
 Cc: %s
+Content-Type: text/html; charset=UTF-8
 
     %s`, subject, to, cc, body)
 
 	// 打开一个名为 email.eml 的文件，如果不存在则创建它
-	file, err := os.OpenFile("email.eml", os.O_CREATE|os.O_WRONLY, 0644)
+	file, err := os.OpenFile("CreateEmailFile.eml", os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
