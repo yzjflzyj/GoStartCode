@@ -1,5 +1,13 @@
 Subject: Test email
-    To: receiver@example.com
-    Cc: cc@example.com
+To: receiver@example.com
+Cc: cc@example.com
 
-    Hello, this is a test email.
+
+        <html>
+            <head></head>
+            <body>
+                <h1>Hello, this is a test email</h1>
+                <p>This email contains <strong>formatted</strong> text.</p>
+            </body>
+        </html>
+    
