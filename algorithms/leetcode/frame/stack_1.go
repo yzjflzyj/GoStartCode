@@ -10,12 +10,11 @@ package main
  */
 // 切片即可当栈使用
 func isValid(s string) bool {
-	hash := map[byte]byte{')': '(', ']': '[', '}': '{'}
-	stack := make([]byte, 0)
 	if s == "" {
 		return true
 	}
-
+	hash := map[byte]byte{')': '(', ']': '[', '}': '{'}
+	stack := make([]byte, len(s))
 	for i := 0; i < len(s); i++ {
 		if s[i] == '(' || s[i] == '[' || s[i] == '{' {
 			stack = append(stack, s[i])
