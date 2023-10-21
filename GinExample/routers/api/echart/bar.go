@@ -18,7 +18,7 @@ import (
 func generateItemsByWeekBar() ([]opts.BarData, []string, int) {
 	var studyLog = study_log_service.StudyLog{}
 	//studyLogs, _ := studyLog.QueryStudyLogPage()
-	studyLogs, _ := studyLog.QueryStudyLogByDateTime(time.Now().AddDate(0, 0, -9), time.Now())
+	studyLogs, _ := studyLog.QueryStudyLogByDateTime(time.Now().AddDate(0, 0, -8), time.Now())
 	//星期常量map
 	weekMap := make(map[int]string)
 	weekMap[0] = "Sun"

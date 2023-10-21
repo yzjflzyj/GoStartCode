@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 type Pay interface {
-	Pay(string) int
+	Pay() string
 }
 
 type PayReq struct {
