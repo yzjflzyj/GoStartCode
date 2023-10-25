@@ -79,6 +79,7 @@ func getBar() *charts.Bar {
 			Link:     "https://github.com/go-echarts/examples",
 			Right:    "60%",
 		}),
+		charts.WithColorsOpts(opts.Colors{"pink"}), // 设置颜色
 		charts.WithToolboxOpts(opts.Toolbox{Show: true}),
 		charts.WithLegendOpts(opts.Legend{Show: true, Right: "10%"}),
 		// 调整图的大小

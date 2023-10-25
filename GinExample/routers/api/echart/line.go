@@ -62,6 +62,7 @@ func getLine() *charts.Line {
 			Link:     "https://github.com/go-echarts/examples",
 			Right:    "70%",
 		}),
+		//charts.WithColorsOpts(opts.Colors{"blue"}), // 设置颜色
 		charts.WithToolboxOpts(opts.Toolbox{Show: true}),
 		charts.WithLegendOpts(opts.Legend{Show: true, Right: "10%"}),
 		// 调整图的大小
