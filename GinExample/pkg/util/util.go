@@ -37,3 +37,31 @@ func GetWeekdayName(weekdayInt int) string {
 func GetWeekdayInt(weekdayName string) int {
 	return int(weekdayList[weekdayName])
 }
+
+// GetTimeByString
+// @Description: 字符串转日期,适配多种日期格式
+// @param dateString 日期格式
+// @return time.Time 返回time
+func GetTimeByString(dateString string) time.Time {
+	if dateString == "" {
+		return time.Now()
+	}
+
+	// 适配多种日期格式
+	layoutArr := []string{"2006-1-2", "2006-01-2", "2006-1-02", "2006-01-02"}
+
+	var dateTime time.Time
+	var err error
+
+	for _, l := range layoutArr {
+		dateTime, err = time.Parse(l, dateString)
+		if err == nil {
+			break
+		}
+	}
+
+	if err != nil {
+		return time.Now()
+	}
+	return dateTime
+}

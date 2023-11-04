@@ -5,6 +5,7 @@ import (
 	"GoStartCode/GinExample/pkg/e"
 	"GoStartCode/GinExample/pkg/export"
 	"GoStartCode/GinExample/pkg/logging"
+	"GoStartCode/GinExample/pkg/util"
 	"GoStartCode/GinExample/service/study_log_service"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -30,14 +31,7 @@ func AddStudyLog(c *gin.Context) {
 		return
 	}
 	// 获取日期
-	dateTime := func(dateString string) time.Time {
-		if dateString == "" {
-			return time.Now()
-		}
-		layout := "2006-01-02" // 指定日期的格式
-		dateTime, _ := time.Parse(layout, dateString)
-		return dateTime
-	}(form.DateTime)
+	dateTime := util.GetTimeByString(form.DateTime)
 
 	// 增加学习记录
 	var studyLog = study_log_service.StudyLog{
