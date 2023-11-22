@@ -1,0 +1,41 @@
+
+[hashids]
+  length = 12
+  secret = "6ab6122836cfef95f8db"
+
+[language]
+  local = "zh-cn"
+
+[mail]
+  host = "smtp.163.com"
+  pass = "0178116czjg"
+  port = 465
+  to = "yanzhijie2014@163.com"
+  user = "yanzhijie2014@163.com"
+
+[mysql]
+
+  [mysql.base]
+    connmaxlifetime = 60
+    maxidleconn = 60
+    maxopenconn = 10
+
+  [mysql.read]
+    addr = "127.0.0.1:3306"
+    name = "action"
+    pass = "0178116czjg"
+    user = "root"
+
+  [mysql.write]
+    addr = "127.0.0.1:3306"
+    name = "action"
+    pass = "0178116czjg"
+    user = "root"
+
+[redis]
+  addr = "127.0.0.1:6379"
+  db = "0"
+  maxretries = 3
+  minidleconns = 5
+  pass = ""
+  poolsize = 10
