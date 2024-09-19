@@ -19,6 +19,12 @@ func generateItemsByWeekBar() ([]opts.BarData, []string, int) {
 	var studyLog = study_log_service.StudyLog{}
 	//studyLogs, _ := studyLog.QueryStudyLogPage()
 	studyLogs, _ := studyLog.QueryStudyLogByDateTime(time.Now().AddDate(0, 0, -8), time.Now())
+	//展示列表
+	showStrList := make([]string, 0)
+	items := make([]opts.BarData, 0)
+	if len(studyLogs) == 0 {
+		return items, showStrList, 0
+	}
 	//星期常量map
 	weekMap := make(map[int]string)
 	weekMap[0] = "Sun"
@@ -28,9 +34,6 @@ func generateItemsByWeekBar() ([]opts.BarData, []string, int) {
 	weekMap[4] = "Thu"
 	weekMap[5] = "Fri"
 	weekMap[6] = "Sat"
-	//展示列表
-	showStrList := make([]string, 0)
-	items := make([]opts.BarData, 0)
 
 	totalStudyTime := 0
 	firstStudyLogDate := studyLogs[0].DateTime
@@ -56,6 +59,9 @@ func generateItemsByWeekBar() ([]opts.BarData, []string, int) {
 
 // bar底部的展示字符串
 func getStudyDateStr(showStrList []string) (string, string) {
+	if len(showStrList) == 0 {
+		return "", ""
+	}
 	dateRegex := regexp.MustCompile(`(\d{4}-\d{2}-\d{2})`)
 
 	// 提取匹配的日期字符串

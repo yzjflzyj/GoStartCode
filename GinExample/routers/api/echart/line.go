@@ -14,6 +14,13 @@ import (
 func generateAllItemsLine() ([]opts.LineData, []string, int) {
 	var studyLog = study_log_service.StudyLog{}
 	studyLogs, _ := studyLog.QueryStudyLogByDateTime(time.Now().AddDate(-6, 0, 0), time.Now())
+	//展示列表
+	showStrList := make([]string, 0)
+	items := make([]opts.LineData, 0)
+	totalStudyTime := 0
+	if len(studyLogs) == 0 {
+		return items, showStrList, totalStudyTime
+	}
 	//星期常量map
 	weekMap := make(map[int]string)
 	weekMap[0] = "Sun"
@@ -23,11 +30,7 @@ func generateAllItemsLine() ([]opts.LineData, []string, int) {
 	weekMap[4] = "Thu"
 	weekMap[5] = "Fri"
 	weekMap[6] = "Sat"
-	//展示列表
-	showStrList := make([]string, 0)
-	items := make([]opts.LineData, 0)
 
-	totalStudyTime := 0
 	firstStudyLogDate := studyLogs[0].DateTime
 	lastStudyLogDate := studyLogs[len(studyLogs)-1].DateTime
 	duration := lastStudyLogDate.Sub(firstStudyLogDate)
